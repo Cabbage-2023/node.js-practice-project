@@ -1,11 +1,10 @@
 const KoaRouter=require("@koa/router")
-const { request } = require("../app")
 
+const userController = require("../controller/user.controller")
 const userRouter=new KoaRouter({prefix:'/users'})
+const {verifyUser,handlePassword}=require("../middleware/user.middleware")
 
 //用户注册接口
-userRouter.post('/',(ctx,next)=>{
-  const user=ctx.request.body
-})
+userRouter.post('/',verifyUser,handlePassword,userController.create)
 
 module.exports=userRouter
