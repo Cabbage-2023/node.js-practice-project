@@ -29,6 +29,8 @@ const verifyLogin=async(ctx,next)=>{
 const verifyAuth=async(ctx,next)=>{
   //获取token
   const authorization=ctx.headers.authorization
+  if(!authorization) return ctx.app.emit('error',UNAUTHOURIZATION,ctx)
+    
   const token=authorization.replace('Bearer ','')
   //验证token
   try {

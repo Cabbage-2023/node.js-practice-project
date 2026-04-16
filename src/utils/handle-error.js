@@ -1,6 +1,7 @@
 const app=require("../app")
 const {NAME_OR_PASSWORD_IS_REQUIRED,NAME_IS_ALREADY_EXIST,
-  NAME_IS_NOT_EXIST,PASSWORD_IS_INCORRECT,UNAUTHOURIZATION}=require("../config/error")
+  NAME_IS_NOT_EXIST,PASSWORD_IS_INCORRECT,
+  UNAUTHOURIZATION,OPERATION_IS_NOT_ALLOWED}=require("../config/error")
 
 app.on('error',(err,ctx)=>{
   let code = 0
@@ -25,6 +26,10 @@ app.on('error',(err,ctx)=>{
     case UNAUTHOURIZATION:
       code = -1005
       message = 'token无效'
+      break
+    case OPERATION_IS_NOT_ALLOWED:
+      code = -2001
+      message = '没有权限操作'
       break
     default:
       code = 0
