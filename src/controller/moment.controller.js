@@ -57,6 +57,40 @@ class MomentController{
       data:result
     }
   }
+
+
+  async addLabels(ctx,next){
+    //获取参数
+    const {momentId}=ctx.params
+    const labels=ctx.labels
+
+    //将momentId和labelId添加到关系表
+    try {
+      const results = []; // 用一个数组记录所有操作结果
+      for(const label of labels){
+        //判断labelId和momentId的关系是否已经存在
+        const isExists=await momentService.hasLabel(momentId,label.id)
+        if(!isExists){
+          //添加到关系表
+          const result=await momentService.addLabel(momentId,label.id)
+          results.push(result);
+        }
+      }
+      ctx.body={
+        code:0,
+        message:'添加用户动态标签成功',
+        data:results
+      }
+
+    } catch (error) {
+      console.log(error);
+      ctx.body={
+        code:-3001,
+        message:'添加用户动态标签失败',
+        data:error
+      }
+    }
+  }
 }
 
 module.exports=new MomentController()
