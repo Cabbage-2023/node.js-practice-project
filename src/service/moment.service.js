@@ -16,7 +16,8 @@ class MomentService{
           'id', u.id, 
           'name', u.name, 
           'createTime', u.createAt, 
-          'updateTime', u.updateAt
+          'updateTime', u.updateAt,
+          'avatarURL', u.avatar_url
         ) AS user
         ,
         (SELECT COUNT(*) FROM comment WHERE comment.moment_id=m.id) AS commentCount,
@@ -40,7 +41,8 @@ class MomentService{
           'id', u.id, 
           'name', u.name, 
           'createTime', u.createAt, 
-          'updateTime', u.updateAt
+          'updateTime', u.updateAt,
+          'avatarURL', u.avatar_url
         ) AS user,
 
         -- 2. 关联评论列表 (一对多，子查询内部打包)
@@ -51,7 +53,7 @@ class MomentService{
               'content', c.content, 
               'commentId', c.comment_id,
               'createTime', c.createAt,
-              'user', JSON_OBJECT('id', cu.id, 'name', cu.name)
+              'user', JSON_OBJECT('id', cu.id, 'name', cu.name,'avatarURL', u.avatar_url)
             )
           ), JSON_ARRAY())
           FROM comment c 
